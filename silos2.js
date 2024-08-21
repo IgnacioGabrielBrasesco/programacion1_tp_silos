@@ -7,64 +7,102 @@ GRUPO:
 - GERALDINE CARDOZO
 - IGNACIO GABRIEL BRASESCO
 
+
+1) Crear un desarrollo en JavaScript que simule el funcionamiento de esta planta.
+2) Definir dos silos: uno para soja y otro para maíz. Cada silo tendrá una capacidad máxima y un stock actual de cereal.
+3) Implementar una función que permita ingresar un camión. Esta función debe:
+        - Solicitar al usuario el tipo de cereal (soja o maíz) y el peso de la carga.
+        - Validar los datos ingresados (por ejemplo, que el peso sea un número positivo).
+        - Determinar el silo correspondiente al tipo de cereal.
+        o Verificar si hay suficiente espacio en el silo para almacenar la carga.
+        - Si hay espacio, actualizar el stock del silo y mostrar un mensaje informando sobre el ingreso del camión.
+        - Si no hay espacio, mostrar un mensaje indicando que el silo está lleno.         
 */
 
+
+
 let siloSoja = {
-    capacidad: 10000,
-    stock: 3000
+    capacidadSiloSoja: 10000,
+    stockSoja: 3000
 };
 let siloMaiz = {
-    capacidad: 10000,
-    stock: 2000
+    capacidadSiloMaiz: 10000,
+    stockMaiz: 2000
 };
 
+// guardo los valores de las propiedades en variables
+let capacidadSiloSoja = siloSoja.capacidadSiloSoja;
+let stockSoja = siloSoja.stockSoja;
+
+let capacidadSiloMaiz = siloMaiz.capacidadSiloMaiz;
+let stockMaiz = siloMaiz.stockMaiz;
+
+//cree funcion mostrarMensaje
 function mostrarMensaje(mensaje) {
-    alert(mensaje);
+    alert(mensaje); 
 }
 
-function soja() {
-    let pesoSojaIngresado = parseInt(prompt("¿Cuánto peso de soja desea ingresar?"));
+   
+function soja() { 
+
+    let pesoSojaIngresado;
 
     // Validación del peso ingresado
-    while (isNaN(pesoSojaIngresado) || pesoSojaIngresado <= 0) {
-        pesoSojaIngresado = parseInt(prompt("Ingrese un peso válido de soja:"));
-    }
+    do {
+        pesoSojaIngresado = prompt("¿Cuánto peso de soja desea ingresar?");
+        
+        // Verificamos que sea un número completo y no tenga letras
+        if (!/^\d+$/.test(pesoSojaIngresado) || parseInt(pesoSojaIngresado) <= 0) {
+            mostrarMensaje("Entrada inválida. Ingrese un peso válido de soja (solo números):");
+        }
+    } while (!/^\d+$/.test(pesoSojaIngresado) || parseInt(pesoSojaIngresado) <= 0);
 
-    let stockActualizadoSoja = siloSoja.stock + pesoSojaIngresado;
+    pesoSojaIngresado = parseInt(pesoSojaIngresado); // Ahora puedes hacer la conversión a número
 
-    if (stockActualizadoSoja <= siloSoja.capacidad) {
-        siloSoja.stock = stockActualizadoSoja; // Actualizo el stock de soja
-        mostrarMensaje(`Hay espacio suficiente en el silo de soja para descargar el camión. Ahora el stock de soja es de ${siloSoja.stock}`);
+    let stockActualizadoSoja = stockSoja + pesoSojaIngresado;
+
+    if (stockActualizadoSoja <= capacidadSiloSoja) {
+        mostrarMensaje(`Hay espacio suficiente en el silo de soja para descargar el camión. Ahora el stock de soja es de ${stockActualizadoSoja}`);
+        stockSoja = stockActualizadoSoja; // Actualizo el stock de soja
     } else {
         mostrarMensaje(`No hay espacio suficiente en el silo de soja para descargar el camión`);
     }
-}
 
-function maiz() {
-    let pesoMaizIngresado = parseInt(prompt("¿Cuánto peso de maíz desea ingresar?"));
+
+};
+function maiz() { 
+     let pesoMaizIngresado;
 
     // Validación del peso ingresado
-    while (isNaN(pesoMaizIngresado) || pesoMaizIngresado <= 0) {
-        pesoMaizIngresado = parseInt(prompt("Ingrese un peso válido de maíz:"));
-    }
+    do {
+        pesoMaizIngresado = prompt("¿Cuánto peso de soja desea ingresar?");
+        
+        // Verificamos que sea un número completo y no tenga letras
+        if (!/^\d+$/.test(pesoMaizIngresado) || parseInt(pesoMaizIngresado) <= 0) {
+            mostrarMensaje("Entrada inválida. Ingrese un peso válido de soja (solo números):");
+        }
+    } while (!/^\d+$/.test(pesoMaizIngresado) || parseInt(pesoMaizIngresado) <= 0);
 
-    let stockActualizadoMaiz = siloMaiz.stock + pesoMaizIngresado;
+    pesoMaizIngresado = parseInt(pesoMaizIngresado); // Ahora puedes hacer la conversión a número
 
-    if (stockActualizadoMaiz <= siloMaiz.capacidad) {
-        siloMaiz.stock = stockActualizadoMaiz; // Actualizo el stock de maíz
-        mostrarMensaje(`Hay espacio suficiente en el silo de maíz para descargar el camión. Ahora el stock de maíz es de ${siloMaiz.stock}`);
+    let stockActualizadoMaiz = stockMaiz + pesoMaizIngresado;
+
+    if (stockActualizadoMaiz <= capacidadSiloMaiz) {
+        mostrarMensaje(`Hay espacio suficiente en el silo de soja para descargar el camión. Ahora el stock de soja es de ${stockActualizadoMaiz}`);
+        siloMaiz = stockActualizadoMaiz; // Actualizo el stock de soja
     } else {
-        mostrarMensaje(`No hay espacio suficiente en el silo de maíz para descargar el camión.`);
+        mostrarMensaje(`No hay espacio suficiente en el silo de maiz para descargar el camión`);
     }
 }
-
 function ingresarCamion() {
-    let menuPrincipal;
+    
+    // Inicializo la variable dentro de la función y fuera del switch 
+    let menuPrincipal; //cambié los nombres a las variables
     let menu;
 
     do {
         menuPrincipal = parseInt(prompt("\n*Elija el cereal que quiera ingresar al silo*\n\n1. Soja \n2. Maíz\n\nElija una opción:"));
-
+        
         switch (menuPrincipal) {
             case 1:
                 soja();
@@ -81,18 +119,16 @@ function ingresarCamion() {
 
         do {
             menu = parseInt(prompt("1) Volver al menu principal\n2) Salir"));
-
+    
             if (menu !== 1 && menu !== 2) {
                 mostrarMensaje("Ingresa un dato valido");
-            } else  {
-                (menu === 2)
-                mostrarMensaje(`Gracias, vuelvas prontos`);
+            } else if (menu === 2) {
+                mostrarMensaje("Gracias, vuelvas prontos");
             }
-
+    
         } while (menu !== 1 && menu !== 2);
-
-    } while (menu !== 2);  
+        
+    } while (menu !== 2);
+      
 }
-
-// Iniciar el proceso
 ingresarCamion();
